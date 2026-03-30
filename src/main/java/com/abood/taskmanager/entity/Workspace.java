@@ -30,4 +30,8 @@ public class Workspace {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "workspace")
+    @JsonIgnore
+    private Set<Project> projects = new HashSet<>();
 }

@@ -19,10 +19,6 @@ public class WorkspaceController {
         this.workspaceService = workspaceService;
     }
 
-    @GetMapping
-    public List<WorkspaceResponseDTO> getAllWorkspaces() {
-        return workspaceService.getAllWorkspaces();
-    }
 
     @PostMapping
     public Workspace createWorkspace(@Valid @RequestBody WorkspaceDTO workspaceDTO) {
@@ -33,6 +29,11 @@ public class WorkspaceController {
     public Workspace addUserToWorkspace(@PathVariable Long workspaceId,
                                         @PathVariable Long userId) {
         return workspaceService.addUserToWorkspace(userId, workspaceId);
+    }
+
+    @GetMapping
+    public List<WorkspaceResponseDTO> getAllWorkspaces() {
+        return workspaceService.getAllWorkspaces();
     }
 }
 
