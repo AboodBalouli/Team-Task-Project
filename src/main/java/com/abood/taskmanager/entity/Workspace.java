@@ -7,6 +7,10 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Workspace entity represents a team workspace.
+ * a workspace contains projects and has users with specific roles.
+ */
 @Entity
 @Table(name = "workspaces")
 @Getter
@@ -17,21 +21,25 @@ import java.util.Set;
 public class Workspace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "user_workspace",
-            joinColumns = @JoinColumn(name = "workspace_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> users = new HashSet<>();
+    @Column
+    private String description;
 
-    @OneToMany(mappedBy = "workspace")
+    /**
+     * WorkspaceUsers - the users in this workspace along with their roles
+     */
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<WorkspaceUser> workspaceUsers = new HashSet<>();
+
+    /**
+     * projects belonging to this workspace
+     */
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 }

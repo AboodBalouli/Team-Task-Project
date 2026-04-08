@@ -14,16 +14,20 @@ import java.util.stream.Collectors;
 public class WorkspaceResponseDTO {
     private Long id;
     private String name;
-    private List<UserResponseDTO> users;
+    private String description;
+    private List<WorkspaceUserResponseDTO> members;
 
-    // Static factory method to convert Workspace entity to WorkspaceResponseDTO
+
     public static WorkspaceResponseDTO fromEntity(Workspace workspace) {
         return WorkspaceResponseDTO.builder()
                 .id(workspace.getId())
                 .name(workspace.getName())
-                .users(workspace.getUsers().stream()
-                        .map(UserResponseDTO::fromEntity)
-                        .collect(Collectors.toList()))
+                .description(workspace.getDescription())
+                .members(workspace.getWorkspaceUsers() != null ?
+                        workspace.getWorkspaceUsers().stream()
+                                .map(WorkspaceUserResponseDTO::fromEntity)
+                                .collect(Collectors.toList())
+                        : List.of())
                 .build();
     }
 }

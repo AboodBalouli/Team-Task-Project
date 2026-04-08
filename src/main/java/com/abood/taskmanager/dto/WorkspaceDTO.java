@@ -10,6 +10,8 @@ import lombok.*;
 @Builder
 public class WorkspaceDTO {
 
-    @NotBlank(message = "workspace name is required")
+    @NotBlank(message = "Workspace name is required")
     private String name;
+
+    private String description;
 }

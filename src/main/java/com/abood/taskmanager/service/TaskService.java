@@ -44,4 +44,32 @@ public class TaskService {
                 .map(TaskResponseDTO::fromEntity)
                 .toList();
     }
+
+    public Task getTaskEntityById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+    }
+
+    public TaskResponseDTO updateTaskStatus(Long taskId, TaskStatus taskStatus) {
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
+        task.setTaskStatus(taskStatus);
+        return TaskResponseDTO.fromEntity(taskRepository.save(task));
+    }
+
+    public void deleteTask(Long taskId) {
+
+        Task task = getTaskEntityById(taskId);
+
+        taskRepository.delete(task);
+    }
+
+    public List<TaskResponseDTO> getTasksByProject(Long projectId) {
+
+        projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
+
+
+        return taskRepository.findByProjectId(projectId).stream()
+                .map(TaskResponseDTO::fromEntity)
+                .toList();
+    }
 }
