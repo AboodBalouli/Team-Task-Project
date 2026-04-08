@@ -8,27 +8,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "projects")
+@Table(name = "tasks")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Project {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
-    private String name;
+    private String title;
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "workspace_id", nullable = false)
-    private Workspace workspace;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus taskStatus;
 
-    @OneToMany(mappedBy = "project")
-    @JsonIgnore
-    private Set<Task> tasks = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
+
 }
